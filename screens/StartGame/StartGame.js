@@ -1,0 +1,87 @@
+import React, { useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  Keyboard
+} from "react-native";
+import Card from "../../components/Card";
+import Button from "../../components/Button";
+import TextInput from "../../components/TextInput";
+
+const StartGame = () => {
+  const [value, setValue] = useState("");
+  const [confirmed, setConfirmed] = useState(false);
+  const [randomNumber, setRandomNumber] = useState(0);
+
+  const handleValueChange = text => {
+    const formatText = text.replace(/[^0-9]/g, "");
+    setValue(formatText);
+  };
+  const handleValueReset = () => {
+    setValue("");
+    setConfirmed(false);
+  };
+  const handleValueConfirm = () => {
+    const chosenNumber = parseInt(value);
+    if (!isNaN(chosenNumber) && chosenNumber > 0 && chosenNumber < 99) {
+      setRandomNumber(parseInt(value));
+      setValue("");
+      setConfirmed(true);
+    }
+  };
+
+  return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.screen}>
+        <Text style={styles.title}>Start a new game</Text>
+        <Card style={styles.container}>
+          <Text>Select a number</Text>
+          <TextInput
+            blurOnSubmit
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="number-pad"
+            maxLength={2}
+            onChangeText={handleValueChange}
+            value={value}
+          />
+          <View style={styles.buttons}>
+            <Button type="secondary" title="Reset" onPress={handleValueReset} />
+            <Button
+              type="primary"
+              title="Confirm"
+              onPress={handleValueConfirm}
+            />
+          </View>
+        </Card>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    padding: 10,
+    alignItems: "center"
+  },
+  title: {
+    fontSize: 20,
+    marginVertical: 10
+  },
+  container: {
+    width: 300,
+    maxWidth: "80%",
+    alignItems: "center"
+  },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
+    width: "100%"
+  }
+});
+
+export default StartGame;
