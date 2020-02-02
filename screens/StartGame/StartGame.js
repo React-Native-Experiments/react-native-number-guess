@@ -13,7 +13,7 @@ import CustomButton from "../../components/Button";
 import TextInput from "../../components/TextInput";
 import NumberContainer from "../../components/NumberContainer";
 
-const StartGame = () => {
+const StartGame = ({ handleStartGame }) => {
   const [value, setValue] = useState("");
   const [confirmed, setConfirmed] = useState(false);
   const [randomNumber, setRandomNumber] = useState(0);
@@ -51,7 +51,11 @@ const StartGame = () => {
       <Card style={styles.summaryContainer}>
         <Text>You Selected</Text>
         <NumberContainer>{randomNumber}</NumberContainer>
-        <Button title="Start Game" color="#f7287b" />
+        <Button
+          title="Start Game"
+          color="#f7287b"
+          onPress={() => handleStartGame(randomNumber)}
+        />
       </Card>
     );
   }
